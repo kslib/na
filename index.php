@@ -2,17 +2,9 @@
 
 require_once('load.php');
  
-echo_table('servers');
+//echo_table('servers');
 
-
-
-
-
-
-
-
- die();
- echo 'holy shit!<br>';
+echo 'holy shit!<br>';
 echo '---<br>';
 echo $_SERVER['REQUEST_METHOD'].' &nbsp; '.$_SERVER['PATH_INFO'];
 echo '<br>---<br>';
@@ -30,6 +22,7 @@ echo '--- json_decode <br>';
 var_dump($input);
 echo '<br>---<br>';
 
+router($request);
  
 
  
@@ -68,7 +61,7 @@ var_dump($sql);
 echo '<br>---<br>';
 
 
-// excecute SQL statement
+// excute SQL statement
 $result = mysqli_query($db_link,$sql);
 
 // die if SQL statement failed
