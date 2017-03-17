@@ -1,7 +1,9 @@
 <?php
 
+
 require_once('load.php');
- 
+
+echo '<meta charset="utf-8">'; 
 //echo_table('servers');
 
 echo 'holy shit!<br>';
@@ -23,9 +25,26 @@ var_dump($input);
 echo '<br>---<br>';
 
 router($request);
+
+//---------------------------
  
+$ch = curl_init("http://115.159.55.151"); // such as http://example.com/example.xml
+
+$options = array(CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_HEADER => true,
+	CURLINFO_HEADER_OUT => true
+	);
+
+curl_setopt_array($ch, $options);
+$data = curl_exec($ch);
+curl_close($ch);
+
+var_dump($data);
+
 
  
+
+die(); 
 // retrieve the table and key from the path
 $table = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));
 $key = array_shift($request)+0;
