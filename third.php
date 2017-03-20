@@ -1,4 +1,6 @@
 <?php
+
+
 function dump_debug($input, $collapse=false) {
     $recursive = function($data, $level=0) use (&$recursive, $collapse) {
         global $argv;

@@ -12,13 +12,55 @@ try {
 }
 
 function router($url){
-	url_match("$url");
-	url_match("$url");
+	// url_match("$url");
+	// url_match("$url");
 }
 
 function url_match($regx){
 
 	return ;
+}
+
+function is_url_valid(){
+	if(!$url || !is_string($url) || ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)){
+		return false;
+	}
+	return true;
+}
+
+// $url must checked
+function get_http_info($url){
+
+	$ch = curl_init($url); 
+
+	$options = array(
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_HEADER => true,
+		CURLOPT_NOBODY => true,
+		CURLOPT_TIMEOUT => 10
+		);
+
+	curl_setopt_array($ch, $options);
+	$response = curl_exec($ch);
+	$info = curl_getinfo($ch);
+	curl_close($ch);
+
+	$http_info=$info;
+	$http_info['header']=substr($response, 0, $info['header_size']);
+	return $http_info;
+}
+
+
+function get_detail($url){
+	$log_detail = [];
+	$log_detail['http']=get_http_info($url);
+
+	return $log_detail;
+}
+
+function get_sql_result($sql){
+	global $db;
+	$sql = "";
 }
 
 
@@ -86,6 +128,35 @@ function echo_table($table_name){
 
 
 }
+
+
+function get_item_by_uname($uname){
+
+	if (trim($_SERVER['PATH_INFO'],'/') == 'dada/uname/al') {
+		echo '<br> haha ,dada get ~~~~~~ <br>';
+
+		$table_name = 'servers';
+
+		$sql = "SELECT * from $table_name where uname = '$uname' ";
+		$result = get_obj($sql);
+		if ($count_line = 1) {
+
+			foreach ($result as $row) {
+				return $row;
+			}
+
+
+		}else{
+			die('uname was not unique!');
+		}
+
+		$array_col_name=get_col_name($table_name);
+
+	} 
+
+}
+
+
 
 
 function do_action($function_name,$arg){

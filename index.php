@@ -28,21 +28,38 @@ router($request);
 
 //---------------------------
  
-$ch = curl_init("http://115.159.55.151"); // such as http://example.com/example.xml
-
-$options = array(CURLOPT_RETURNTRANSFER => true,
-	CURLOPT_HEADER => true,
-	CURLINFO_HEADER_OUT => true
-	);
-
-curl_setopt_array($ch, $options);
-$data = curl_exec($ch);
-curl_close($ch);
-
-var_dump($data);
 
 
- 
+// $http_info = get_http_info("http://211.87.148.243");
+// $json_http_info = json_encode($http_info, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+// pre_dump($http_info);
+// pre_echo($json_http_info);
+
+// $log_detail['http']=$http_info;
+// $json_log_detail = json_encode($log_detail, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+// pre_dump($log_detail);
+// pre_echo($json_log_detail);
+
+
+$ip = get_item_by_uname('win8')['ip'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 die(); 
 // retrieve the table and key from the path
