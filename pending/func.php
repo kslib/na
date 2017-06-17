@@ -4,21 +4,37 @@
 
 // db
 try {
-	$db = new PDO('mysql:host=localhost;dbname=na', 'root', '123');
+	$db = new PDO('mysql:host=;dbname=', '', '');
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
 	print "Error!: " . $e->getMessage() . "<br/>";
 	die();
 }
 
-function router($url){
-	// url_match("$url");
-	// url_match("$url");
+function router($array_path){
+	pre_dump($url);
+	if ($array_path[0] == 'dada') {
+		if ($array_path[1] == 'id') {
+			$ip = get_row('servers','id',$array_path[2])['ip'];
+
+		}else if($array_path[1] == 'uname'){
+			$ip = get_row('servers','uname',$array_path[2])['ip'];
+		}else{
+			echo404();
+		}
+
+		$response = dada($ip);
+
+	}else{
+		echo404();
+	}
+
+
+	return $response;
 }
 
-function url_match($regx){
-
-	return ;
+function echo404(){
+	die('404 not found');
 }
 
 function is_url_valid(){
@@ -45,6 +61,7 @@ function get_http_info($url){
 	$info = curl_getinfo($ch);
 	curl_close($ch);
 
+	$http_info=array();
 	$http_info=$info;
 	$http_info['header']=substr($response, 0, $info['header_size']);
 	return $http_info;
@@ -52,11 +69,21 @@ function get_http_info($url){
 
 
 function get_detail($url){
-	$log_detail = [];
-	$log_detail['http']=get_http_info($url);
+	$detail = [];
+	$detail['http']=get_http_info($url);
 
-	return $log_detail;
+	return $detail;
 }
+
+
+function dada($ip){
+	$detail = get_detail($ip);
+	//add_log($ip);
+
+	return $detail ;
+}
+
+
 
 function get_sql_result($sql){
 	global $db;
@@ -130,31 +157,27 @@ function echo_table($table_name){
 }
 
 
-function get_item_by_uname($uname){
+function get_row($table,$col_name,$value){
 
-	if (trim($_SERVER['PATH_INFO'],'/') == 'dada/uname/al') {
-		echo '<br> haha ,dada get ~~~~~~ <br>';
+	$sql = "SELECT * from $table where $col_name = '$value' ";
+	//pre_dump($sql);	
+	
+	$result = get_obj($sql);
+	if ($count_line = 1) {
 
-		$table_name = 'servers';
-
-		$sql = "SELECT * from $table_name where uname = '$uname' ";
-		$result = get_obj($sql);
-		if ($count_line = 1) {
-
-			foreach ($result as $row) {
-				return $row;
-			}
-
-
-		}else{
-			die('uname was not unique!');
+		foreach ($result as $row) {
+			return $row;
 		}
 
-		$array_col_name=get_col_name($table_name);
 
-	} 
+	}else{
+		die($value.' was not unique!');
+	}
+
 
 }
+
+
 
 
 

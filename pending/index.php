@@ -13,7 +13,20 @@ echo '<br>---<br>';
 
 // get the HTTP method, path and body of the request
 $method = $_SERVER['REQUEST_METHOD'];
-$request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
+
+$path_info=trim($_SERVER['PATH_INFO'],'/');
+
+preg_match('/^dada\/.*/', $path_info, $matches);
+
+pre_dump($matches);
+
+
+
+
+
+
+die();
+$array_path = explode('/', trim($_SERVER['PATH_INFO'],'/'));
 $input = json_decode(file_get_contents('php://input'),true);
 
 echo '--- file_get_contents <br>';
@@ -24,13 +37,14 @@ echo '--- json_decode <br>';
 var_dump($input);
 echo '<br>---<br>';
 
-router($request);
-
+$response=router($array_path);
+pre_dump($response);
+die(); 
 //---------------------------
  
 
 
-// $http_info = get_http_info("http://211.87.148.243");
+// $http_info = get_http_info("211.87.148.243");
 // $json_http_info = json_encode($http_info, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 // pre_dump($http_info);
 // pre_echo($json_http_info);
@@ -44,7 +58,16 @@ router($request);
 $ip = get_item_by_uname('win8')['ip'];
 
 
+echo '>>>>> response<br>';
 
+$r= dada('211.87.148.243');
+
+$r = json_encode($r, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+pre_dump($r);
+
+
+
+echo '<<<<< response<br>';
 
 
 
